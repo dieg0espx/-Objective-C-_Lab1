@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-NSString *getUserInput(int maxLenght, NSString *prompt){
+NSMutableString *getUserInput(int maxLenght, NSMutableString *prompt){
     if (maxLenght < 1){
         maxLenght = 255;
     }
@@ -17,7 +17,7 @@ NSString *getUserInput(int maxLenght, NSString *prompt){
     char inputChars[maxLenght];
     char *result = fgets(inputChars, maxLenght, stdin);
     if(result != NULL){
-        return [[NSString stringWithUTF8String:inputChars]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        return [[NSMutableString stringWithUTF8String:inputChars]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
     return NULL;
 }
@@ -25,10 +25,10 @@ NSString *getUserInput(int maxLenght, NSString *prompt){
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         while (YES){
-            NSString *strInput = getUserInput(255, @"\n Enter your String: ('q' to quit)");
+            NSMutableString *strInput = getUserInput(255, @"\n Enter your String: ('q' to quit)");
             if ([strInput isEqualToString:@"q"]){break;}
             while (YES){
-                NSString *option = getUserInput(10, @"\n Choose one of the folloowing options:\n1. Uppercase\n2. Lowercase\n3. Numerize\n4. Canadianize\n5. Respond\n6. De-Space-It\n7. Word Count\n8. Remove Punctuations\n9. Done\n");
+                NSMutableString *option = getUserInput(10, @"\n Choose one of the folloowing options:\n1. Uppercase\n2. Lowercase\n3. Numerize\n4. Canadianize\n5. Respond\n6. De-Space-It\n7. Word Count\n8. Remove Punctuations\n9. Done\n");
                 if([option isEqualToString:@"9"]){break;}
                 else if([option isEqualToString:@"1"]){
                     NSLog(@"%@ ", [strInput uppercaseString]);
@@ -66,7 +66,7 @@ int main(int argc, const char * argv[]) {
                         NSLog(@"%i", count);
                     }else if([option isEqualToString:@"8"]){
                         NSCharacterSet *notAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"] invertedSet];
-                        NSString *ans = [[strInput componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
+                        NSMutableString *ans = [[strInput componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
                         NSLog (@"%@", ans);
                     }
             }
